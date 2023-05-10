@@ -9,4 +9,4 @@ post:  ## execute a command that create a new post
 	sed -i 's/title: .*/title:"$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
 help:           ## Show this help.
-	@grep -E '^# [\w|-]+:' $(MAKEFILE_LIST) | sed -e 's/^# //' | awk -F ': ' '{ printf "%-20s %s\n", $$1, $$2 }'
+    @fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
