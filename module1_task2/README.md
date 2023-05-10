@@ -17,6 +17,7 @@ The following command line commands are available for managing the Awesome Inc. 
 make build: Builds the static website files using Hugo.
 make serve: Runs a local development server to preview the website.
 make clean: Cleans the built website files and cache.
+make help: Show help for all command.
 make deploy: Deploys the website to the production server or platform.
 For additional commands and options, refer to the Makefile in the repository.
 
