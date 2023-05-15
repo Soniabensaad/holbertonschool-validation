@@ -10,14 +10,14 @@ stop: ## Stop
 	kill "$(pgrep awesome-api)" || true
 
 clean: ## 
-	kill "$(pgrep awesome-api)" || true
+	pkill awesome-api || true
 	rm -f awesome-api
 	rm -f awesome-api.log
 
 
 test:
-	@curl http://localhost:9999
-	@curl http://localhost:9999/health
+	curl http://localhost:9999
+	curl http://localhost:9999/health
 
 help:           ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
