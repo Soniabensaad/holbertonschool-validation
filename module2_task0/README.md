@@ -1,10 +1,10 @@
-Prerequisites :
+## Prerequisites :
 Life-cycle of this application:
 
 A Makefile should be present and valid
 The binary awesome-api must NOT exist at the beginning, in the source code
 The goals build, run , stop, clean test should be implemented and mapped to the life-cycle stages of the same name:
-Lifecycle :
+## Lifestyle:
 “build”: compile the source code of the application to a binary named awesome-api (the name awesome-api comes from the command go mod init github.com/<your github handle>/awesome-api) with the command go build.
 “run”: Run the application in background by executing the binary awesome-api, and write logs into a file named awesome-api.log with the command ./awesome-api >./awesome-api.log 2>&1 &.
 “stop”: Stop the application with the command kill XXXXX where XXXXX is the Process ID of the application. For instance: pkill awesome-api.

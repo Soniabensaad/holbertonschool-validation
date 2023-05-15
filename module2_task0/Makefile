@@ -1,23 +1,23 @@
 .PHONY: build run stop clean test help
 
-build:## Build
+build:## build
 	go build -o awesome-api
 
-run:## Run
+run:## sun
 	./awesome-api > ./awesome-api.log 2>&1 &
 
-stop: ## Stop
+stop: ## stop
 	pkill awesome-api || true
 
-clean: ## 
+clean: ## clean
 	pkill awesome-api || true
 	rm -f awesome-api
 	rm -f awesome-api.log
 
 
-test:
+test: ## test
 	curl http://localhost:9999
 	curl http://localhost:9999/health
 
-help:           ## Show this help.
+help: ## Display Help
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
