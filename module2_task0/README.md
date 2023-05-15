@@ -1,4 +1,4 @@
-## Prerequisites
+## Prerequisites :
 Life-cycle of this application:
 
 A Makefile should be present and valid
