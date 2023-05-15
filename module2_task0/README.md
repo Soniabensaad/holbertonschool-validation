@@ -1,31 +1,13 @@
-## Prerequisites
-This document provides instructions and information for building and maintaining the Awesome Inc. website. It includes requirements, the website's lifecycle, and command line usage.
-Requirements
-To build and run the website locally, the following software and dependencies are required:
-Go-Hugo: Installation Guide
-Make: Installation Guide
-Lifecycle
-The lifecycle of the Awesome Inc. website involves the following steps:
-Installation: Clone the website repository from GitHub.
-Configuration: Customize the website's configuration files according to your needs.
-Content: Create or modify content pages, blog posts, and other website components.
-Build: Use Hugo to build the static website files.
-Deployment: Deploy the built website files to a hosting server or platform.
-Command Line Usage
-The following command line commands are available for managing the Awesome Inc. website:
-## Lifecycle
-make build: Builds the static website files using Hugo.
-make serve: Runs a local development server to preview the website.
-make clean: Cleans the built website files and cache.
-make help: Show help for all command.
-make deploy: Deploys the website to the production server or platform.
-For additional commands and options, refer to the Makefile in the repository.
+Prerequisites :
+Life-cycle of this application:
 
-Source Code Comments
-The source code of the Awesome Inc. website contains comments to provide clarity and guidance. Here are some important comments to note:
-
-In config.toml, modify the configuration options such as site title, description, and navigation menu.
-Content files are located in the content/ directory. Each content page or blog post has a YAML front matter section at the top.
-Layout files are located in the layouts/ directory. Customize the templates according to your design requirements.
-Static assets like images, CSS, and JavaScript files can be placed in the static/ directory.
-For more detailed information about the code structure and specific functionalities, please refer to the comments within the source code files.
+A Makefile should be present and valid
+The binary awesome-api must NOT exist at the beginning, in the source code
+The goals build, run , stop, clean test should be implemented and mapped to the life-cycle stages of the same name:
+Lifecycle :
+“build”: compile the source code of the application to a binary named awesome-api (the name awesome-api comes from the command go mod init github.com/<your github handle>/awesome-api) with the command go build.
+“run”: Run the application in background by executing the binary awesome-api, and write logs into a file named awesome-api.log with the command ./awesome-api >./awesome-api.log 2>&1 &.
+“stop”: Stop the application with the command kill XXXXX where XXXXX is the Process ID of the application. For instance: pkill awesome-api.
+“clean”: Stop the application. Delete the binary awesome-api and the log file awesome-api.log.
+“test”: You want to test it to ensure that it behaves as expected. With the application started, you may want to use the command line curl (or your web browser, or the command wget or any other HTTP client).
+“help”: Show help for all command.
