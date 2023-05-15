@@ -1,24 +1,31 @@
-Learning Objectives
-This project aims at practicing with automated tests. The goal is to understand the pros and cons of different testing methods to be able to understand the value of doing, or not doing, a kind of test.
+## Prerequisites
+This document provides instructions and information for building and maintaining the Awesome Inc. website. It includes requirements, the website's lifecycle, and command line usage.
+Requirements
+To build and run the website locally, the following software and dependencies are required:
+Go-Hugo: Installation Guide
+Make: Installation Guide
+Lifecycle
+The lifecycle of the Awesome Inc. website involves the following steps:
+Installation: Clone the website repository from GitHub.
+Configuration: Customize the website's configuration files according to your needs.
+Content: Create or modify content pages, blog posts, and other website components.
+Build: Use Hugo to build the static website files.
+Deployment: Deploy the built website files to a hosting server or platform.
+Command Line Usage
+The following command line commands are available for managing the Awesome Inc. website:
+## Lifecycle
+make build: Builds the static website files using Hugo.
+make serve: Runs a local development server to preview the website.
+make clean: Cleans the built website files and cache.
+make help: Show help for all command.
+make deploy: Deploys the website to the production server or platform.
+For additional commands and options, refer to the Makefile in the repository.
 
-After this project, you should be able to:
+Source Code Comments
+The source code of the Awesome Inc. website contains comments to provide clarity and guidance. Here are some important comments to note:
 
-Understand what linting is the extent of its usages (which kind of file can be linted, and the impact of running it often)
-Understand the difference between unit tests and integration tests
-Use code coverage as a helper to write tests
-Understand that not only “classical” code is to be tested, but also a lot of the artifacts we can generate
-Understand how “component”-based testing for acceptance and end to end validation is to be used
-Prerequisites
-The following elements are required In addition to the previous module (“Module 1: Introduction to DevOps: Automate Everything to Focus on What Really Matters”) prerequisites.
-
-Concepts
-You should have a basic knowledge on the following concepts:
-
-What a compiled language is (C/C#/Golang/Rust/etc.)
-
-Generation process from source to executable binary
-Basic types: string, integer, boolean, maps, arrays
-Basic algorithmic: loops, conditional, functions
-Installing command line tools with NPM (in addition to package managers)
-
-Understand the basics of the HTTP protocol (client/server, verbs, headers)
+In config.toml, modify the configuration options such as site title, description, and navigation menu.
+Content files are located in the content/ directory. Each content page or blog post has a YAML front matter section at the top.
+Layout files are located in the layouts/ directory. Customize the templates according to your design requirements.
+Static assets like images, CSS, and JavaScript files can be placed in the static/ directory.
+For more detailed information about the code structure and specific functionalities, please refer to the comments within the source code files.
