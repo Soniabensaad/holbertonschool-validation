@@ -7,7 +7,7 @@ run:## Run
 	./awesome-api > ./awesome-api.log 2>&1 &
 
 stop: ## Stop
-	kill "$(pgrep awesome-api)" || true
+	pkill awesome-api || true
 
 clean: ## 
 	pkill awesome-api || true
