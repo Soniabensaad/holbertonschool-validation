@@ -1,6 +1,7 @@
 .PHONY: build run stop clean test help lint
 
 build:## build
+    golangci-lint run
 	go build -o awesome-api
 
 run:## sun
