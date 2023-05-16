@@ -29,7 +29,6 @@ func setupRouter() *mux.Router {
 
   // When an HTTP GET request is received on the path /health, delegates to the function "HealthCheckHandler()"
   r.HandleFunc("/health", HealthCheckHandler).Methods("GET")
-
   // when an HTTP GET request is received on the path /hello
   r.HandleFunc("/hello", HelloHandler).Methods("GET")
 
@@ -45,6 +44,7 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
   // End of the function: return HTTP 200 by default
 }
+
 func HelloHandler(w http.ResponseWriter, r *http.Request) {
   // Extract the query parameters from the GET request
   queryParams := r.URL.Query()
