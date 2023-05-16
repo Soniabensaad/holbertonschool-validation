@@ -19,8 +19,9 @@ test:	## Test:
 lint:	## Lint:
 	golangci-lint run
 
-unit-tests: ## unit-tests
-    go test -v -short -coverprofile=coverage-units.out
+unit-tests:	## Unit-tests:
+	go test -v -short -coverprofile=coverage-units.out
+
 
 help:	## Display this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
