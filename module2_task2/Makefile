@@ -1,5 +1,4 @@
 build:	## Build:
-	golangci-lint run
 	go build
 
 run:	## Run:
@@ -16,12 +15,14 @@ test:	## Test:
 	curl http://localhost:9999
 	curl http://localhost:9999/health
 
+lint:	## Lint:
+	golangci-lint run
+
 unit-tests:	## Unit-tests:
 	go test -v -short -coverprofile=coverage-units.out
 
-
-lint:	## Lint:
-	golangci-lint run
+coverage:	## Coverage:
+	go tool cover -func=coverage-units.out
 
 help:	## Display this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
