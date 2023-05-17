@@ -13,9 +13,10 @@ clean: ## Clean:
 	rm -rf awesome-api awesome-api.log
 	rm -rf awesome-api awesome-api.log coverage-units.out coverage-integrations.out
 
-test: ## Test:
+test:	## Test:
 	go test -v -short -coverprofile=coverage-units.out
 	go test -v -coverprofile=coverage-integrations.out
+
 unit-tests:	## Unit-tests:
 	go test -v -short -coverprofile=coverage-units.out
 
