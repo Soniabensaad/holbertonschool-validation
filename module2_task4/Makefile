@@ -10,8 +10,8 @@ check: ## check
 clean: ## execute a command that clean the dist directory
 	rm -rf dist
 
-validate: ## validation
-	python3 /opt/W3C-Validator/w3c_validator.py ./dist/index.html || true
+validate:
+    python3 /opt/W3C-Validator/w3c_validator.py --file=./module1_task0/dist/index.html || true
 
 
 post:  ## execute a command that create a new post
