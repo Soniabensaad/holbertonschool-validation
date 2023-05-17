@@ -15,6 +15,10 @@ clean: ## Clean:
 test:	## Test:
 	go test -v -short -coverprofile=coverage-units.out
 	go test -v -tags=integration -coverprofile=coverage-integrations.out
+	@echo "Merging coverage profiles..."
+	echo "mode: set" > coverage-all.out
+	cat coverage-units.out coverage-integrations.out | grep -v "mode: set" >> coverage-all.out
+	rm -f coverage-units.out coverage-integrations.out
 
 unit-tests:	## Unit-tests:
 	go test -v -short -coverprofile=coverage-units.out
