@@ -1,8 +1,7 @@
 build: ## execute a command that create a new blog
-    markdownlint README.md content/posts/
+	markdownlint README.md content/posts/
 	markdown-link-check README.md content/posts/
 	hugo
-
 
 Check: ## check
     markdownlint README.md content/posts/
