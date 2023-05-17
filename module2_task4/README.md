@@ -15,11 +15,12 @@ Command Line Usage
 The following command line commands are available for managing the Awesome Inc. website:
 ## Lifecycle
 make build: Builds the static website files using Hugo.
-make serve: Runs a local development server to preview the website.
+make check :should fail when one of the 2 following steps fails.
+make validate :should validate the file ./dist/index.html by using the command 
+line Holberton’s W3C Validator, but should not fail if the file is not valid.
 make clean: Cleans the built website files and cache.
 make help: Show help for all command.
-make deploy: Deploys the website to the production server or platform.
-For additional commands and options, refer to the Makefile in the repository.
+
 
 Source Code Comments
 The source code of the Awesome Inc. website contains comments to provide clarity and guidance. Here are some important comments to note:
