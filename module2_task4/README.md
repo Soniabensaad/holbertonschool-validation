@@ -1,4 +1,4 @@
-## Prerequisites
+# Prerequisites
 
     Use the theme “ananke” for the website by following this Quickstart
     If you are using the sandboxe, do NOT install hugo with the package 
