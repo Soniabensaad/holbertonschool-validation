@@ -17,10 +17,10 @@ test:	## Test:
 	go test -v -tags=integration -coverprofile=coverage-integrations.out
 
 unit-tests:	## Unit-tests:
-	go test -v -short -coverprofile=coverage-units.out ./...
+	go test -v -short -coverprofile=coverage-units.out
 
 integration-tests:	## Integration-tests:
-	go test -v -tags=integration -coverprofile=coverage-integrations.out ./...
+	go test -v -tags=integration -coverprofile=coverage-integrations.out
 
 lint:	## Lint:
 	golangci-lint run
