@@ -1,26 +1,35 @@
-build:	## Build:
-	golangci-lint run
-	go build
+help:	
+		@awk 'BEGIN {FS = ":.*##"; } /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+		
+build: lint ## Build the binary
+	go build -o awesome-api
 
-run:	## Run:
-	./awesome-api >./awesome-api.log 2>&1 &
 
-stop:  ## Stop:
-	pkill awesome-api || true
 
-clean: ## Clean:
-	pkill awesome-api || true
-	rm -rf awesome-api awesome-api.log
+run: build ## Run the application
+	./$(BINARY_NAME) > $(LOG_FILE) 2>&1 &
 
-test:	## Test:
-	curl http://localhost:9999
-	curl http://localhost:9999/health
+stop: ## Stop the application
+	kill "$(shell pgrep $(BINARY_NAME))"
 
-unit-tests:	## Unit-tests:
-	go test -v -short -coverprofile=coverage-units.out
 
-lint:	## Lint:
-	golangci-lint run
+clean: ## Stop the application, delete binary and log files
+	-kill "$(shell pgrep $(BINARY_NAME))"
+	rm -f $(BINARY_NAME)
+	rm -f $(LOG_FILE)
 
-help:	## Display this help.
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+
+test: ## Test the application
+	@echo "Testing / endpoint:"
+	curl -s http://localhost:$(PORT)
+	@echo
+	@echo "Testing /health endpoint:"
+	curl -s http://localhost:$(PORT)/health
+	@echo
+
+lint: ## Perform static analysis on the source code
+	@golangci-lint run ./...
+
+unit-tests: ## 
+	@go test -v -short -coverprofile=coverage-units.out 
+
