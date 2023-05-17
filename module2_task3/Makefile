@@ -10,18 +10,17 @@ stop:  ## Stop:
 
 clean: ## Clean:
 	pkill awesome-api || true
-	rm -rf awesome-api awesome-api.log
-	rm -rf coverage-units.out coverage-integrations.out
+	rm -rf awesome-api awesome-api.log coverage-units.out coverage-integrations.out
 
 test:	## Test:
 	go test -v -short -coverprofile=coverage-units.out
-	go test -v -coverprofile=coverage-integrations.out
+	go test -v -tags=integration -coverprofile=coverage-integrations.out
 
 unit-tests:	## Unit-tests:
 	go test -v -short -coverprofile=coverage-units.out
 
-integration-tests:  ## Integrations-tests
-	go test -v -coverprofile=coverage-integrations.out
+integration-tests:	## Integration-tests:
+	go test -v -tags=integration -coverprofile=coverage-integrations.out
 
 lint:	## Lint:
 	golangci-lint run
