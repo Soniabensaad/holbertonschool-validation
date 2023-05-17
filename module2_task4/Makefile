@@ -1,22 +1,30 @@
-build: ## execute a command that create a new blog
-	markdownlint README.md content/posts/
-	markdown-link-check README.md content/posts/
-	hugo
+build: check
+    @echo "Building the website..."
+    @# Add the command to generate the website here
 
-check: ## check
-	markdownlint README.md content/posts/
-	markdown-link-check README.md content/posts/
+check: lint link-check
 
-clean: ## execute a command that clean the dist directory
-	rm -rf dist
+lint:
+    @echo "Linting Markdown files..."
+    @markdownlint README.md content/posts/
 
-validate: ## validation
-	python3 /opt/W3C-Validator/w3c_validator.py ./dist/index.html || true
+link-check:
+    @echo "Checking links..."
+    @markdown-link-check README.md content/posts/
 
+clean:
+    @echo "Cleaning the dist directory..."
+    @rm -rf dist
 
-post:  ## execute a command that create a new post
-	hugo new posts/$(POST_NAME).md
-	sed -i 's/title: .*/title:"$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+validate:
+    @echo "Validating HTML..."
+    @python3 /opt/W3C-Validator/w3c_validator.py ./dist/index.html || true
 
-help:  ## Show this help.
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+post:
+    @echo "Creating a new post..."
+    @hugo new posts/$(POST_NAME).md
+    @sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+
+help:
+    @echo "Available targets:"
+    @fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
