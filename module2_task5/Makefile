@@ -32,6 +32,8 @@ lint: ## Checks for potential errors
 	golangci-lint run
 
 test: ## Executes all testing targets
+    go test -v -short -coverprofile=coverage-units.out
+	go test -v -tags=integration -coverprofile=coverage-integrations.out
 	make unit-tests
 	make integration-tests
 	make validate
