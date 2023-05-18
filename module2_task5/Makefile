@@ -34,8 +34,7 @@ lint: ## Checks for potential errors
 test: ## Executes all testing targets
     go test -v -short -coverprofile=coverage-units.out
 	go test -v -tags=integration -coverprofile=coverage-integrations.out
-	make unit-tests
-	make integration-tests
+	
 	make validate
 
 unit-tests: ## Runs unit-tests
