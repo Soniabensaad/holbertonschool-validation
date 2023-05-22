@@ -1,4 +1,4 @@
-name: module3_task0
+name: Module 3 Task 0
 
 on:
   push:
@@ -8,15 +8,19 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Clone repository
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up Make
-        run: sudo apt-get install make
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.x
 
-      - name: Execute make help
+      - name: Validate Makefile
         run: make help
+
+      # Add more steps for linting, building, and testing as needed
