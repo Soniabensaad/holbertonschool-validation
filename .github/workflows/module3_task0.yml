@@ -1,0 +1,22 @@
+name: module3_task0
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Set up Make
+        run: sudo apt-get install make
+
+      - name: Execute make help
+        run: make help
