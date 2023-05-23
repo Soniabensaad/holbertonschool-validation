@@ -8,47 +8,24 @@ When a new version of the application is ready for deployment, create a Git tag 
 git tag 1.0.0
 git push origin 1.0.0
 ```
-## Contents of the Archive
+## Deploying a Release
 
-The archive contains the following:
+To deploy a release, download the ZIP archive from the GitHub release page. The archive is named `awesome-website.zip` and is associated with the Git tag for the release.
 
-- `awesome-api`: The binary executable for the Awesome API.
-- `dist/`: The directory containing the generated Hugo website files.
+Unzip the archive to access the `awesome-api` binary and the `dist/` directory containing the Hugo-generated website files.
 
-## How to Unarchive
-
-To unarchive the ZIP file, run the following command:
-
-```makefile
-make package
+```bash
+unzip awesome-website.zip
 ```
 
-## Starting and Stopping the Application
+Next, start the application:
 
-To start the application:
-
-```makefile
+```bash
 make build
 ```
 
-To stop the application:
-
-```makefile
-make stop
-```
-
-## Customizing Log File Location
-
-By default, the application logs are written to `awesome-api.`log in the
-current directory.To customize the log directory, you can modify the `run`
-target in the Makefile
-or provide a command-line argument to specify the log file path.
-
-## Healthcheck
-
-To quickly verify that the application is running, access the
-following endpoint:
+You can stop the application at any time with:
 
 ```bash
-http://localhost:8080/healthcheck
+make stop
 ```
