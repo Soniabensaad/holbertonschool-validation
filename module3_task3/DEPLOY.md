@@ -1,5 +1,13 @@
 # Deployment Instructions
 
+
+## Managing Release 
+When a new version of the application is ready for deployment, create a Git tag and push it to the remote repository. This triggers the automated build process and creates a ZIP archive of the application.
+
+```bash
+git tag 1.0.0
+git push origin 1.0.0
+```
 ## Contents of the Archive
 
 The archive contains the following:
