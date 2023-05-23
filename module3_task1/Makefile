@@ -1,39 +1,51 @@
-lint: ## lint
-	golangci-lint run ./main.go
+GO=go
+TARGET=awesome-api
+RM=rm -rf
+MAKE=make
+COVERAGE=coverage
+HUGO=hugo
 
-build: check ## Build awesome-api
-	go build -o awesome-api
-	hugo -d dist/
+build:	## Generate the source code of the application to a binary.
+	$(MAKE) lint
+	$(GO) mod tidy
+	$(MAKE) check && $(HUGO) && $(GO) build -o $(TARGET)
 
-run: ## Run awesome-api application
-	./awesome-api >./awesome-api.log 2>&1 &
+run:	## Run the application in background by executing the binary.
+	./$(TARGET) >./$(TARGET).log 2>&1 &
 
-stop: ## Stop awesome-api application
-	pkill awesome-api || true
+post:	## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME
+	$(HUGO) new posts/$(POST_NAME).md
+	sed -i '2s/.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
-clean: stop ## Clean awesome-api application and log
-	rm -f awesome-api awesome-api.log coverage-units.out coverage-integrations.out
-	rm -rf ./dist
-post: ## Create a new blog post
-	hugo new posts/$(POST_NAME).md
-	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+stop:	## Stop the application.
+	@pkill $(TARGET)
 
-test: ## Test current connection
-	make unit-tests
-	make integration-tests
+clean:	## Stop the application. Delete the binary and the log file.
+	@if pgrep -x $(TARGET) > /dev/null; then \
+		pkill $(TARGET); \
+	fi
+	@$(RM) $(TARGET) $(TARGET).log $(COVERAGE)-units.out $(COVERAGE)-integrations.out dist/ *~
 
-unit-tests: ## Run tests to check for HelloHandler coverage
-	go test -v -short -coverprofile=coverage-units.out
+test:	## Test the application.
+	$(MAKE) unit-tests
+	$(MAKE) integration-tests
+	$(MAKE) validate
 
-integration-tests: ## Run tests to check integrations coverage
-	go test -v -coverprofile=coverage-integrations.out
-check: ## Check markdown files
-	markdownlint ./content/posts/*.md
-	markdown-link-check ./content/posts/*.md
+unit-tests: ## Run unit tests
+	go test -v -short -coverprofile=$(COVERAGE)-units.out
 
-validate: ## Validate HTML with W3C Validator
-	make build
-	python3 /opt/W3C-Validator/w3c_validator.py dist/index.html
-.SILENT:
-help: ## Display what each command does
-	cat Makefile | grep '##' | tr -d '##' | head -n -1
+integration-tests: ## Run integration tests
+	go test -v -coverprofile=$(COVERAGE)-integrations.out
+
+lint:	## Lint go lang code
+	golangci-lint run
+
+check:	## Lint markdonw source, check dead links
+	markdownlint content/**/*.md
+	find content -name \*.md -print0 | xargs -0 -n1 markdown-link-check
+
+validate:	## Validate the file dist/index.html using the command line Holberton’s W3C Validator.
+	python3 /opt/W3C-Validator/w3c_validator.py ./dist/index.html || true
+
+help:	## Show this help usage.
+	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)

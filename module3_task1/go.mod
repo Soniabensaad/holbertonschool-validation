@@ -1,5 +1,5 @@
-module github.com/Soniabensaad/awesome-api
+module github.com/Lestt/awesome-api
 
-go 1.13
+go 1.20
 
 require github.com/gorilla/mux v1.8.0
