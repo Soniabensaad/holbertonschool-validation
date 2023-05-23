@@ -1,10 +1,15 @@
-docker run --rm --tty --interactive --volume=$(pwd):/app --workdir=/app ubuntu:18.04 /bin/bash
-apt-get update && apt-get install -y hugo make
+#!/bin/bash
 
-apt-get install wget
+# Install required packages
+apt-get update && apt-get install -y curl make
 
-wget https://github.com/gohugoio/hugo/releases/download/v0.84.0/hugo_extended_0.84.0_Linux-64bit.tar.gz
-tar -zxvf hugo_extended_0.84.0_Linux-64bit.tar.gz
-mv hugo /usr/local/bin
+# Install Hugo
+curl -LO https://github.com/gohugoio/hugo/releases/download/v0.84.0/hugo_extended_0.84.0_Linux-64bit.tar.gz
+tar -xzf hugo_extended_0.84.0_Linux-64bit.tar.gz -C /usr/local/bin/
+rm hugo_extended_0.84.0_Linux-64bit.tar.gz
+export PATH=/usr/local/bin:$PATH
 
+# Run make build
 make build
+
+echo "The installation is successfully completed" >&2
