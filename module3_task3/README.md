@@ -1,147 +1,88 @@
-# Module 1: Introduction to DevOps: Automate Everything
+# <p align=center>Testing in the Software Development Methodology</p>
 
-## Learning Objectives
+<img src="https://www.mindinventory.com/blog/wp-content/uploads/2022/10/golang.gif"
+ width="100%">
 
-This project aims at showing use cases where a DevOps mindset is bringing value
-to software project by automating it, which decreases the amount of manual work
-and increases the development speed. It focuses on why automation is useful and
- helps speeding a development lifecycle.
-
-After this project, you should be able to:
-
-- Understand the value of automating tedious tasks
-- Define a development lifecycle
-- Automate shell-like tasks with Make, and/or shell script
-- Be aware of tools dependencies and the value of reproducing environment
-- Build static HTML website from Markdown code using Go-Hugo
+## Awesome API with Static Website
+  
+This project integrates the Golang API with the static website built using Hugo. The application serves both the API web service and the static website from a single web service. The /hello endpoint is integrated with the static website allowing users to input their name and receive a personalized greeting. The application serves the static files from the ./dist/ directory.
 
 ## Prerequisites
 
-The following elements are required In addition to the previous module (“Module
-0:Linux Fundamentals, Code management with Git, GitHub and the GitFlow pattern”)
-prerequisites.
-
-Concepts
-
-You should have a basic knowledge of the following concepts:
-
-- Shell terminal basics, using command lines:
-
-- Navigating in a Unix file-system
-- Understanding how stdin/stdout redirection and piping
-- Showing and searching the content of a text files
-- Defining and using Environment Variables
-- Adding command lines to your terminal using the apt-get package manager and/or
-with the PATH variable
-- Writing and executing a shell script
-
-- Git with the command line (and also a graphical interface)
-
-- Retrieving or creating a repository
-- Manipulating changes locally with Git’s 3 steps process (workspace, staging,
-history)
-- Distributing changes history with remotes repositories
-
-- Make/Makefile usage:
-
-- Executing tasks through make targets
-- Default target and PHONY target
-- Makefile’s variables and macro syntax
-
-Tooling
-
-This project needs the following tools / services:
-
-- An HTML5-compliant web browser (Firefox, Chrome, Opera, Safari, Edge, etc.)
-- A free account on [GitHub](https://github.com/), referenced as `GitHub Handle`
-- A shell terminal with bash, zsh or ksh, including the standard Unix toolset
-(ls, cd, etc.)
-- [GNU](https://www.gnu.org/software/make/) Make in version 3.81+
-- [Git](https://git-scm.com/book/en/v2/Getting-Started-The-Command-Line)
-(command line) in version 2+
-- [Go Hugo](https://gohugo.io/) v0.80+
-
-How to use the make file:
+- Golang v1.15.*
+- NPM v7+ with NodeJS v14.*
+- Python3
 
 ## Build Workflow
 
-You can see that some tools required to build our application, like make or
-Golang, are available. But others are missing.
+We have a GitHub Actions workflow named `module3_task1` that runs on every push to the repository and once per day. This workflow ensures that our application can be built successfully at any time.
 
-There are 2 different strategies to solve this challenge, each one with its pro
-and cons:
+The workflow runs on a virtual machine with Ubuntu 22.04 and performs the following steps:
 
-- Install the tools during the build:
+1. Checkout the code from the repository
+2. Set up the environment by running the `setup.sh` script, which installs Hugo
+3. Build the application by running `make build`
+  
+## Usage
 
-- ✅ It ensures that you have an automated and always up-to-date installation
-system
-- ❌ but it slows down the builds (you have to wait for all tools be installed
-while you want a feedback as soon as possible)
-- Ensure that the workflow is running inside a pre-built environment with all
-the required tools
+To build and run the application, use the following commands:
 
-- ✅ Fast feedback: you don’t need to wait for tools installation
-- ❌ Maintenance overhead as you need to manage the pre-built environment
-For this module, we’ll use the 1st strategy, and the 2nd will be covered in the
-“Docker” module.
+```makefile
+$ make build
+$ make run
+```
+  
+Then, visit http://localhost:9999/posts/welcome/ to test the "Say Hello" feature.
+   
+To stop the application, run:
+  
+```makefile
+$ make stop
+```
 
-It should be an easy step: you already wrote a script `setup.sh` which role was
-to install Hugo in the production environment: let’s reuse this work!
+To clean up the generated files, run:
 
-You are expected to create new workflow named `module3_task1` from the previous
-workflow.
-
-This new workflow should execute the following targets as distinct steps:
-`lint`, `build`, `unit-tests`, `validate` and `integration-tests`.
-
-Regarding the tooling, you have to:
-
-- Ensure that the workflow is executed into an `Ubuntu 18.04` execution
-environment
-- Ensure that all the required tools are installed prior to any `make` target,
-by executing the script `setup.sh`
-- ⚠️ The script should be modified to only install missing tools (no `make`
-target are expected)
-- ✨ As you are expected to understand the value of linters, tests and
-documentation, you are also expected to lint the script setup.sh during
-the target `make lint` using `Shellcheck`
-
-## Workflow
-
-You are expected to create a new [workflow](https://docs.github.com/en/actions)
-named `module3_task0` with only the following steps:
-
-- Clone the repository,
-- Position yourself in the correct directory and execute the command `make help`
-to validate that the Makefile is present and implements the help target.
-
-This workflow must be [triggered](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows):
-
-- Each time there is new code pushed on your repository,
-- And once per day (whatever time you want).
+```makefile
+$ make clean
+```
 
 ## Lifecycle
 
-To execute the make file use the following syntax `make <command>`
+The project includes a `Makefile` to automate the life-cycle of the application. The following targets are available:
 
-`build`:
- Builds a new version of the website to folder `/dist/`
-`clean`:
-Removes the contents the folder `/dist/`
-`post`:
-Creates a new post in the contents/post folder with POST_TITLE and POST_NAME
-set from the ENV variables
-`help`:
-Prints out information of the commands to the terminal.
+- `help`: Display a list of available targets and their usage
+- `build`: Compile both the Go application and Hugo website
+- `run`: Run the application in the background and write logs to awesome-api.log
+- `stop`: Stop the running application
+- `lint`: Run static analysis on the source code using golangci-lint
+- `test`: Test the application by running unit tests, integration tests, and validate
+- `unit-tests`: Run the unit tests of the application with code coverage
+- `integration-tests`: Run the integration tests of the application with code coverage
+- `check`: Check markdown files for dead links and linting issues
+- `clean`: Stop the application and delete the binary, log, coverage files, and Hugo website build
+- `post`: Create a new publication file in the content/posts/ directory with a specified name and title
+- `package`: Create a ZIP archive containing the binary and the dist/ directory
 
-## Story
+### Example
 
-Congratulations!
+```makefile
+$ make help
 
-It’s your first day at “Awesome Inc.” as a software engineer. This company is
-currently experiencing fast growth and hired you to work on their web services
+help: Display a list of available targets and their usage
+build: Compile both the Go application and Hugo website
+clean: Stop the application and delete the binary, log, coverage files, and Hugo website build
+run: Run the application in the background and write logs to awesome-api.log
+stop: Stop the running application
+test: Test the application by running unit tests, integration tests, and validate
+lint: Run static analysis on the source code using golangci-lint
+unit-tests: Run the unit tests of the application with code coverage
+integration-tests: Run the integration tests of the application with code coverage
+check: Check markdown files for dead links and linting issues
+post: Create a new publication file in the content/posts/ directory with a specified name and title
+package: Create a ZIP archive containing the binary and the dist/ directory
 
-Your predecessor left to travel the world, and the expectations are high on your
-ability to help "Awesome Inc.” to grow a culture of collaboration with a
-technical mindset, while managing their existing web services. That’s exactly
-what DevOps is about!
+```
+
+# Author
+
+- Mathieu Morel
