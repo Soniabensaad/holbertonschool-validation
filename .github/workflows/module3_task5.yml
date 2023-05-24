@@ -1,17 +1,15 @@
 ---
 name: module3_task5
 
-on:
+'on':
   push:
-    branches:
-      - main
+    branches: [main]
     tags:
       - '*'
   schedule:
     - cron: "0 0 * * *"
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build:
@@ -31,7 +29,8 @@ jobs:
 
       - name: Install Hugo
         run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/hugo_extended_0.87.0_Linux-64bit.deb
+          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
+          hugo_extended_0.87.0_Linux-64bit.deb
           sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
 
       - name: Lint
@@ -98,5 +97,20 @@ jobs:
 
       - name: Install Hugo
         run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/hugo_extended_0.87.0_Linux-64bit.deb
+          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
+          hugo_extended_0.87.0_Linux-64bit.deb
           sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
+
+      - name: Create Package
+        run: |
+          cd module3_task5
+          make package
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./module3_task5/awesome-website.zip
+          body_path: ./module3_task5/DEPLOY.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
