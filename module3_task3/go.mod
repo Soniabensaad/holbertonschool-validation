@@ -1,3 +1,3 @@
-module github.com/crasride/holbertonschool-validation
+module github.com/Soniabensaad/holbertonschool-validation
 
 go 1.14
