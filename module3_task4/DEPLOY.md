@@ -1,38 +1,20 @@
-# Deployment Instructions
+# Deployement
 
-# Preparing a Release
+## What is in the archive and how unarchive it
 
-When a new version of the application is ready for deployment, create a Git tag and push it to the remote repository. This triggers the automated build process and creates a ZIP archive of the application.
+* the archive contains the latest build and the api binary.
+  The archive can be found under either in uploads or releases
+  if a tags is used v1.0.0
+* add the archive awesome-website.zip to the release 1.0.0
 
-```bash
-git tag 1.0.0
-git push origin 1.0.0
-```
+## What are the commands to start and stop the application
 
-The tag name becomes the version number of the release.
+* use: hugo server
 
-# Deploying a Release
+## How to customize where the application logs are written
 
-To deploy a release, download the ZIP archive from the GitHub release page. The archive is named `awesome-website.zip` and is associated with the Git tag for the release.
+* to be determined
 
-Unzip the archive to access the `awesome-api` binary and the `dist/` directory containing the Hugo-generated website files.
+## How to “quickly” verify that the application is running
 
-```bash
-unzip awesome-website.zip
-```
-
-Next, start the application:
-
-```bash
-make build
-```
-
-You can stop the application at any time with:
-
-```bash
-make stop
-```
-
-# release
-
-for test archive-website.zip tag
+* use: <http://localhost:1313>

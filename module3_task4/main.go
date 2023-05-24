@@ -30,7 +30,6 @@ func setupRouter() *mux.Router {
 
   // when an HTTP GET request is received on the path /hello
   r.HandleFunc("/hello", HelloHandler).Methods("GET")
-
   r.PathPrefix("/").Handler(http.FileServer(http.Dir("./dist/")))
 
   return r
@@ -60,7 +59,7 @@ func HelloHandler(w http.ResponseWriter, r *http.Request) {
        name = "there"
      default:
        // Set the name variable to the first parameter "name" in the request
-       name = nameParams[0]
+       name = nameParams[0] 
   }
 
   // Return status 400 if name is empty
