@@ -1,53 +1,43 @@
-lint: ## lint
-	markdownlint -f DEPLOY.md README.md || true
+# Define variables
+Publish=hugo
+SHELLCHECK=shellcheck
 
-build: ## Build awesome-api
-	go mod tidy
-	make check && hugo && go build -o awesome-api
+build: ## Builds a new website
+	$(Publish)
 
-run: ## Run awesome-api application
-	./awesome-api >./awesome-api.log 2>&1 &
+clean: ## Remove all files from folder dist
+	rm -r dist/*
 
-stop: ## Stop awesome-api application
-	kill $$(pgrep awesome-api) || true
+post: ## Create new post and using the sed command to modify the contents of a file.
+	$(Publish) new posts/$(POST_NAME).md
+	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
-post: ## Create new MarkDown
-	hugo new posts/$(POST_NAME).md
-	sed -i 's/title: "$(POST_NAME)"/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+lint: ## shellcheck setup
+	markdownlint README.md
+	markdownlint DEPLOY.md
+	$(SHELLCHECK) setup.sh >/dev/null 2>&1 || echo "Lint Failed"
 
-clean: stop ## Clean awesome-api application and log
-	rm -f awesome-api awesome-api.log coverage-units.out coverage-integrations.out go*
-	rm -rf ./dist
+markdownlint: ## updated to lint the files README.md and DEPLOY.md
+	markdownlint README.md
+	markdownlint DEPLOY.md
 
-test: go-build ## Test current connection
-	make unit-tests
-	make integration-tests
-	make validate
+integration-tests: ## server and check the localhost
+	hugo
+	ls dist/
 
-unit-tests: ## Run tests to check for HelloHandler coverage
-	go test -v  -short -coverprofile=coverage-units.out
+unit-tests: ## Runs different makefile recipes
+	make POST_TITLE='TEST' POST_NAME='this-is-a-test' post
+	make build
+	make clean
 
-integration-tests: ## Run tests to check integrations coverage
-	go test -v -coverprofile=coverage-integrations.out
+validate: ## Tests dir
+	pwd
 
-check: ## Check markdown files
-	markdownlint ./content/posts/*.md
-	find content -name \*.md -print0 | xargs -0 -n1 markdown-link-check
+package: ## creates archive
+	make build
+	zip awesome-website.zip dist/	
 
-validate: ## Validate HTML with W3C Validator
-	python3 ./w3c_validator.py ./dist/index.html || true
-
-go-build:	## Build API library
-	go mod init github.com/holbertonschool-validation/tree/main/module3_task2/awesome-api
-	go get github.com/gorilla/mux
-	go build
-
-hugo-build: check ## Build go hugo website
-	hugo -d dist/
-
-package:	## Create awesome-website.zip that includes the awesome-api and dist directory
-	zip -FSr awesome-website.zip . -i dist/ awesome-api
-
-.SILENT:
-help: ## Display what each command does
+help: ## Display the list of targets and their usage.
 	cat Makefile | grep '##' | tr -d '##' | head -n -1
+
+

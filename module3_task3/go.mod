@@ -1,5 +1,3 @@
-module github.com/Soniabensaad/awesome-api
+module github.com/crasride/holbertonschool-validation
 
-go 1.15
-
-require github.com/gorilla/mux v1.8.0
+go 1.14

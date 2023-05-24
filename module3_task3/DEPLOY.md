@@ -1,29 +1,25 @@
-# DEPLOY
+# Deployment Document
 
-## Introduction
-This document outlines the deployment process for the awesome-api application at Awesome Inc., following the Continuous Delivery approach.
+- What is in the archive and how to unarchive it?
 
-## Archive Contents and Unarchiving
-The `awesome-website.zip` archive contains the `awesome-api` binary and the `dist/` directory. To extract the archive, download it and extract the contents to your desired location.
+- It is a compressed file that is the awesome-api binary and is 'dist directory'.
 
-## Starting and Stopping the Application
-To start the application, run `./awesome-api`. To stop it, use `Ctrl+C` or terminate the corresponding process.
+- Syntax to unzip the zip package
+  
+  - Run unzip awesome-website.zip
 
-## Customizing Application Log Locations
-You can customize the application log location by modifying the `config.yaml` file before starting the application.
+- How to verify the version
+  
+  - Run git tag
 
-## Verifying Application Health (Healthcheck)
-To check if the application is running correctly, send an HTTP GET request to `http://localhost:8080/healthcheck` and ensure a 200 response with a success message.
+- What are the commands to start and stop the application?
 
-## Continuous Delivery Workflow (module3_task2)
-The `module3_task2` workflow automatically packages the awesome-api application and `dist/` directory into `awesome-website.zip` on each commit to the principal branch.
+  - Use Hugo server, sintax type hugo server
 
-For more details, refer to the project's documentation and make sure to meet the specified requirements.
+- How to customize where the application logs are written?
 
-Note: The `awesome-website.zip` file is not committed and is deleted by running `make clean`.
+- I do not know yet
 
-## Release
+- How to “quickly” verify that the application is running (healthcheck)?
 
-A Github Release is created with the `tag 1.0.0` and contains the archive
-`awesome-website.zip` along with the content of the file `DEPLOY.md` as text
-for the release.
+- Check it out on local host [http://localhost:1313]
