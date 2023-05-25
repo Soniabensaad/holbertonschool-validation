@@ -1,87 +1,69 @@
-# <p align=center>Testing in the Software Development Methodology</p>
+# DevOps Automation Project
 
-<img src="https://www.mindinventory.com/blog/wp-content/uploads/2022/10/golang.gif"
- width="100%">
+This project aims at demonstrating the value of a DevOps mindset in a software project by focusing on automation, decreasing manual work, and increasing development speed.
 
-## Awesome API with Static Website
-  
-This project integrates the Golang API with the static website built using Hugo. The application serves both the API web service and the static website from a single web service. The /hello endpoint is integrated with the static website allowing users to input their name and receive a personalized greeting. The application serves the static files from the ./dist/ directory.
+## Learning Objectives
+
+By the end of this project, you should be able to:
+
+- Understand the value of automating tedious tasks
+- Define a development lifecycle
+- Automate shell-like tasks with Make, and/or shell script
+- Be aware of tools dependencies and the value of reproducing environments
+- Build static HTML websites from Markdown code using Go-Hugo
 
 ## Prerequisites
 
-- Golang v1.15.*
-- NPM v7+ with NodeJS v14.*
-- Python3
+### Concepts
 
-## Build Workflow
+You should have a basic knowledge of the following concepts:
 
-We have a GitHub Actions workflow named `module3_task1` that runs on every push to the repository and once per day. This workflow ensures that our application can be built successfully at any time.
+- Shell terminal basics, using command lines
+- Git with the command line (and also a graphical interface)
+- Make/Makefile usage
 
-The workflow runs on a virtual machine with Ubuntu 22.04 and performs the following steps:
+### Tooling
 
-1. Checkout the code from the repository
-2. Set up the environment by running the `setup.sh` script, which installs Hugo
-3. Build the application by running `make build`
-  
-## Usage
+This project needs the following tools / services:
 
-To build and run the application, use the following commands:
+- An HTML5-compliant web browser
+- A free account on GitHub, referenced as `<GitHub Handle>`
+- A shell terminal with bash, zsh, or ksh, including the standard Unix toolset
+- GNU Make v3.81+
+- Git (command line) v2+
+- Go Hugo v0.84+ (crucial for the theme you'll use)
+- Ability to spawn a clean Ubuntu 18.04 system (Docker is recommended)
+- A text editor or IDE of your convenience
 
-```makefile
-$ make build
-$ make run
-```
-  
-Then, visit http://localhost:9999/posts/welcome/ to test the "Say Hello" feature.
-   
-To stop the application, run:
-  
-```makefile
-$ make stop
-```
+## Project Scenario
 
-To clean up the generated files, run:
+You are a software engineer at "Awesome Inc." working on their web services. Your goal is to help the company grow a culture of collaboration with a technical mindset while managing their existing web services, in line with the DevOps philosophy.
 
-```makefile
-$ make clean
-```
+## Reference Readings / Watching
 
-## Lifecycle
+- [Go Hugo Quickstart](https://gohugo.io/getting-started/quick-start/)
+- [Git SCM Book](https://git-scm.com/book/en/v2)
+- [GNU Make Docs](https://www.gnu.org/software/make/manual/make.html)
+- [Installing & Using Themes](https://gohugo.io/themes/installing-and-using-themes/)
+- [Add a help target to a Makefile](https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html)
 
-The project includes a `Makefile` to automate the life-cycle of the application. The following targets are available:
 
-- `help`: Display a list of available targets and their usage
-- `build`: Compile both the Go application and Hugo website
-- `run`: Run the application in the background and write logs to awesome-api.log
-- `stop`: Stop the running application
-- `lint`: Run static analysis on the source code using golangci-lint
-- `test`: Test the application by running unit tests, integration tests, and validate
-- `unit-tests`: Run the unit tests of the application with code coverage
-- `integration-tests`: Run the integration tests of the application with code coverage
-- `check`: Check markdown files for dead links and linting issues
-- `clean`: Stop the application and delete the binary, log, coverage files, and Hugo website build
-- `post`: Create a new publication file in the content/posts/ directory with a specified name and title
-- `package`: Create a ZIP archive containing the binary and the dist/ directory
+## Lifecycle of a Hugo Website with Makefile
 
-### Example
+This guide demonstrates the lifecycle of a Hugo website using a Makefile to automate common tasks.
 
-```makefile
-$ make help
+## Requirements
 
-help: Display a list of available targets and their usage
-build: Compile both the Go application and Hugo website
-clean: Stop the application and delete the binary, log, coverage files, and Hugo website build
-run: Run the application in the background and write logs to awesome-api.log
-stop: Stop the running application
-test: Test the application by running unit tests, integration tests, and validate
-lint: Run static analysis on the source code using golangci-lint
-unit-tests: Run the unit tests of the application with code coverage
-integration-tests: Run the integration tests of the application with code coverage
-check: Check markdown files for dead links and linting issues
-post: Create a new publication file in the content/posts/ directory with a specified name and title
-package: Create a ZIP archive containing the binary and the dist/ directory
+1. [Hugo](https://gohugo.io/getting-started/installing/)
+2. A Makefile with the following commands:
+    - `build`: Build the website
+    - `clean`: Clean the `dist` directory
+    - `post`: Create a new Markdown post
+    - `help`: Display information about the available commands
 
-```
+## Step 1: Create a new post
 
-----------------------
+To create a new post, use the `post` command in the Makefile. Replace `POST_NAME` with the desired file name and `POST_TITLE` with the desired title:
 
+```bash
+make post POST_NAME=my-new-post POST_TITLE="My New Post"

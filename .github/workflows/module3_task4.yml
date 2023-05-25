@@ -1,87 +1,71 @@
 ---
 name: module3_task4
 
-'on':
+"on":
   push:
-    branches: [main]
-    tags:
-      - '*'
-  schedule:
-    - cron: "0 0 * * *"
+    branches:
+      - master
   pull_request:
-    branches: [main]
+    types:
+      - closed
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
-  build:
+  builds:
+    permissions: write-all
+    name: module3_task4
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: Install markdownlint and markdown-link-check
-        run: npm install -g markdownlint-cli markdown-link-check
-
-      - name: Install Hugo
+      - uses: actions/checkout@v3
+      - name: installation setup with hugo
         run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
-          hugo_extended_0.87.0_Linux-64bit.deb
-          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
-
-      - name: Lint
+          cd module3_task4 &&
+          chmod u+x setup.sh
+          sudo ./setup.sh
+      - name: check makefile access and execute make
         run: |
-          cd ./module3_task4
-          make lint
-
-      - name: Setup environment
-        run: |
-          cd ./module3_task4
-          ./setup.sh
-
-      - name: Build and Package
-        run: |
-          cd ./module3_task4
+          make help
           make build
-          make package
+          make lint
+          make run
+          make stop
+          make clean
+        working-directory: module3_task4
 
-      - name: Archive package
-        uses: actions/upload-artifact@v2
+      - name: create zip file with make package
+        run: |
+          cd module3_task4 && make package
+      - name: run tests
+        run: |
+          cd module3_task4/awesome-api && make unit-tests
+          cd module3_task4/awesome-api && make integration-tests
+          cd module3_task4 && make validate
+      - name: Package zip file if the tests pass
+        run: |
+          cd module3_task4 && make package
+
+      - name: Upload artifact
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: actions/upload-artifact@v3
         with:
-          name: awesome-website
-          path: ./module3_task4/awesome-website.zip
-
-  create-release:
-    needs: build
-    if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Check-out code
-        uses: actions/checkout@v2
-
-      - name: Install markdownlint and markdown-link-check
-        run: npm install -g markdownlint-cli markdown-link-check
-
-      - name: Install Hugo
-        run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
-          hugo_extended_0.87.0_Linux-64bit.deb
-          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
-
-      - name: Create Package
-        run: |
-          cd module3_task4
-          make package
+          name: Save zip file
+          path: |
+            module3_task4/awesome-website.zip
+      - name: make Release.txt
+        run: cat ./module3_task4/DEPLOY.md >> Release.txt
 
       - name: Create Release
-        id: create_release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/1.0.0')
         with:
-          files: ./module3_task4/awesome-website.zip
-          body_path: ./module3_task4/DEPLOY.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          files: |
+            module3_task4/awesome-website.zip
+            module3_task4/DEPLOY.md
+          body: |
+            # Generate an archive when triggered by a tag
+            # How can I check if the app is running
+            # How do I make a new release using a tag
+            # What's in the zip file and how do I open it
+            # DEPLOY

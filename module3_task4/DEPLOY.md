@@ -1,38 +1,29 @@
-# Deployment Instructions
+# DEPLOY
 
-# Preparing a Release
+## Introduction
+This document outlines the deployment process for the awesome-api application at Awesome Inc., following the Continuous Delivery approach.
 
-When a new version of the application is ready for deployment, create a Git tag and push it to the remote repository. This triggers the automated build process and creates a ZIP archive of the application.
+## Archive Contents and Unarchiving
+The `awesome-website.zip` archive contains the `awesome-api` binary and the `dist/` directory. To extract the archive, download it and extract the contents to your desired location.
 
-```bash
-git tag 1.0.0
-git push origin 1.0.0
-```
+## Starting and Stopping the Application
+To start the application, run `./awesome-api`. To stop it, use `Ctrl+C` or terminate the corresponding process.
 
-The tag name becomes the version number of the release.
+## Customizing Application Log Locations
+You can customize the application log location by modifying the `config.yaml` file before starting the application.
 
-# Deploying a Release
+## Verifying Application Health (Healthcheck)
+To check if the application is running correctly, send an HTTP GET request to `http://localhost:8080/healthcheck` and ensure a 200 response with a success message.
 
-To deploy a release, download the ZIP archive from the GitHub release page. The archive is named `awesome-website.zip` and is associated with the Git tag for the release.
+## Continuous Delivery Workflow (module3_task2)
+The `module3_task2` workflow automatically packages the awesome-api application and `dist/` directory into `awesome-website.zip` on each commit to the principal branch.
 
-Unzip the archive to access the `awesome-api` binary and the `dist/` directory containing the Hugo-generated website files.
+For more details, refer to the project's documentation and make sure to meet the specified requirements.
 
-```bash
-unzip awesome-website.zip
-```
+Note: The `awesome-website.zip` file is not committed and is deleted by running `make clean`.
 
-Next, start the application:
+## Release
 
-```bash
-make build
-```
-
-You can stop the application at any time with:
-
-```bash
-make stop
-```
-
-# release
-
-for test archive-website.zip tag
+A Github Release is created with the `tag 1.0.0` and contains the archive
+`awesome-website.zip` along with the content of the file `DEPLOY.md` as text
+for the release.

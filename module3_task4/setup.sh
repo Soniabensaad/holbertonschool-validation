@@ -1,15 +1,10 @@
 #!/bin/bash
+sudo apt-get update && sudo apt-get install -y make git wget zip
 
-# Install required packages
-apt-get update && apt-get install -y curl make
+wget https://github.com/gohugoio/hugo/releases/download/v0.84.0/hugo_extended_0.84.0_Linux-64bit.deb
+dpkg -i hugo_extended_0.84.0_Linux-64bit.deb
+sudo rm hugo_extended_0.84.0_Linux-64bit.deb
 
-# Install Hugo
-curl -LO https://github.com/gohugoio/hugo/releases/download/v0.84.0/hugo_extended_0.84.0_Linux-64bit.tar.gz
-tar -xzf hugo_extended_0.84.0_Linux-64bit.tar.gz -C /usr/local/bin/
-rm hugo_extended_0.84.0_Linux-64bit.tar.gz
-export PATH=/usr/local/bin:$PATH
-
-# Run make build
-make build
-
-echo "The installation is successfully completed" >&2
+sudo go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52.2
+sudo npm install -g markdownlint-cli
+sudo npm install -g markdown-link-check
