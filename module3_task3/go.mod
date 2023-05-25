@@ -1,4 +1,4 @@
-module github.com/Soniabensaad/awesome-api
+module github.com/Soniabensaad/module2_task0
 
 go 1.15
 

@@ -1,34 +1,46 @@
-# Deployment Instructions
+name: module3_task3
 
-## Preparing a Release
+on:
+  push:
+    tags:
+      - '*'
 
-When a new version of the application is ready for deployment, create a Git tag and push it to the remote repository. This triggers the automated build process and creates a ZIP archive of the application.
+jobs:
+  release:
+    runs-on: ubuntu-latest
 
-```bash
-git tag 1.0.0
-git push origin 1.0.0
-```
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-The tag name becomes the version number of the release.
+      - name: Set up Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
 
-## Deploying a Release
+      - name: Build Hugo website
+        run: hugo --minify --source ./website
 
-To deploy a release, download the ZIP archive from the GitHub release page. The archive is named `awesome-website.zip` and is associated with the Git tag for the release.
+      - name: Create release
+        uses: softprops/gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: |
+            awesome-website.zip
+          release_name: ${{ github.ref }}
+          body: |
+            $(cat DEPLOY.md)
+          body_path: ./DEPLOY.md
 
-Unzip the archive to access the `awesome-api` binary and the `dist/` directory containing the Hugo-generated website files.
+      - name: Update DEPLOY.md
+        run: echo "::set-output name=content::$(cat DEPLOY.md | sed -e 's/\[tag\]/${{ github.ref }}/g')" > ${{ github.workspace }}/DEPLOY.md
 
-```bash
-unzip awesome-website.zip
-```
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update DEPLOY.md
+          commit_options: '--author="GitHub Actions"'
 
-Next, start the application:
-
-```bash
-make build
-```
-
-You can stop the application at any time with:
-
-```bash
-make stop
-```
+      - name: Push changes
+        run: git push origin ${{ github.ref }}
