@@ -83,6 +83,3 @@ package: Create a ZIP archive containing the binary and the dist/ directory
 
 ```
 
-# Author
-
-- Mathieu Morel
