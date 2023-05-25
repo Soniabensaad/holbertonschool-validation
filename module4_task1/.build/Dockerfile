@@ -1,5 +1,5 @@
 # Base image
-FROM golang:latest
+FROM golang:1.15.8-buster
 
 # Install the required tools
 RUN apt-get update && \
