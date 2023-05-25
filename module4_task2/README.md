@@ -93,3 +93,6 @@ with a specified name and title
 package: Create a ZIP archive containing the binary and the dist/ directory  
 lint-docker: Lint the Dockerfile using Hadolint.  
 docker-tests: Run container structure tests on the Docker image.  
+
+----------------------
+
