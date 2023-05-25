@@ -1,0 +1,5 @@
+schemaVersion: "2.2.0"
+tests:
+- name: "Check if Docker image has specific files"
+  command: "ls /path/to/file"
+  expectedOutput: "file.txt"
