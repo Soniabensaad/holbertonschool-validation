@@ -9,25 +9,24 @@ This project integrates the Golang API with the static website built using Hugo.
 
 ## Prerequisites
 
-- Golang v1.15.*
-- NPM v7+ with NodeJS v14.*
-- Python3
+- Docker
+- Make
 
 ## Build Workflow
 
-We have a GitHub Actions workflow named `module3_task1` that runs on every push to the repository and once per day. This workflow ensures that our application can be built successfully at any time.
+We have a GitHub Actions workflow named `module4_task1` that runs with each push on the repository. This workflow ensures that our application can be successfully built at any time.
 
 The workflow runs on a virtual machine with Ubuntu 22.04 and performs the following steps:
 
 1. Checkout the code from the repository
-2. Set up the environment by running the `setup.sh` script, which installs Hugo
-3. Build the application by running `make build`
+2. Building the application by running `make build-docker` and `make build`
   
 ## Usage
 
 To build and run the application, use the following commands:
 
 ```makefile
+$ make build-docker
 $ make build
 $ make run
 ```
@@ -52,6 +51,7 @@ The project includes a `Makefile` to automate the life-cycle of the application.
 
 - `help`: Display a list of available targets and their usage
 - `build`: Compile both the Go application and Hugo website
+- `Build-docker`: Builds the Docker image used to perform other tasks
 - `run`: Run the application in the background and write logs to awesome-api.log
 - `stop`: Stop the running application
 - `lint`: Run static analysis on the source code using golangci-lint
@@ -70,6 +70,7 @@ $ make help
 
 help: Display a list of available targets and their usage
 build: Compile both the Go application and Hugo website
+Build-docker: Builds the Docker image used to perform other tasks
 clean: Stop the application and delete the binary, log, coverage files, and Hugo website build
 run: Run the application in the background and write logs to awesome-api.log
 stop: Stop the running application
@@ -84,5 +85,3 @@ package: Create a ZIP archive containing the binary and the dist/ directory
 ```
 
 ----------------------
-
-
