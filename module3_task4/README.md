@@ -1,69 +1,49 @@
-# DevOps Automation Project
 
-This project aims at demonstrating the value of a DevOps mindset in a software project by focusing on automation, decreasing manual work, and increasing development speed.
+# Go-Hugo Website
 
-## Learning Objectives
+This project aims at showing use cases where a DevOps mindset is bringing \
+value to a software project by automating it, which decreases the amount \
+of manual work and increases the development speed. It focuses on why \
+automation is useful and helps speeding sa development lifecycsle.
 
-By the end of this project, you should be able to:
-
-- Understand the value of automating tedious tasks
-- Define a development lifecycle
-- Automate shell-like tasks with Make, and/or shell script
-- Be aware of tools dependencies and the value of reproducing environments
-- Build static HTML websites from Markdown code using Go-Hugo
-
-## Prerequisites
-
-### Concepts
-
-You should have a basic knowledge of the following concepts:
-
-- Shell terminal basics, using command lines
-- Git with the command line (and also a graphical interface)
-- Make/Makefile usage
-
-### Tooling
+## Tooling
 
 This project needs the following tools / services:
 
-- An HTML5-compliant web browser
-- A free account on GitHub, referenced as `<GitHub Handle>`
-- A shell terminal with bash, zsh, or ksh, including the standard Unix toolset
-- GNU Make v3.81+
-- Git (command line) v2+
-- Go Hugo v0.84+ (crucial for the theme you'll use)
-- Ability to spawn a clean Ubuntu 18.04 system (Docker is recommended)
-- A text editor or IDE of your convenience
+* An HTML5-compliant web browsser (Firefox, Chrome, Opera, Safari, Edge, etc.)
+* A free account on GitHub, referenced as GitHub Handle
+* A shell terminal with bash, zsh or ksh, including the standard Unix toolset \
+(ls, cd, etc.) with:
+  * GNU Make in version 3.81+
+  * Git (command line) in version 2+
+  * Go Hugo v0.80+.
+  * A text editor or IDE (Visual Code, Notepad++, Vim, Emacs, IntelliJ, etc.)
 
-## Project Scenario
+## Prerequisites
 
-You are a software engineer at "Awesome Inc." working on their web services. Your goal is to help the company grow a culture of collaboration with a technical mindset while managing their existing web services, in line with the DevOps philosophy.
+* Use the theme “ananke” for the website
+* The website titles should be “Awesome Inc.”
+* The contents consists in a single blsog post which title should be \
+“Welcome to Awesome Inc.”, stored in a file named welcome.md
+* All of the website’s source code is stored under a directory \
+named module1_task2
+* The command line hugo in version +0.84.0 must be used
+* The website is expected to be sgenerated into the directory \
+module1_task2a/dist/
+* GNU Make version 3.81 or 4.0 must be used
+* The “Build” step should be executed by the command make build, \
+“Clean” by make clean and “Post” bsy make post.
 
-## Reference Readings / Watching
+## Lifecycle
 
-- [Go Hugo Quickstart](https://gohugo.io/getting-started/quick-start/)
-- [Git SCM Book](https://git-scm.com/book/en/v2)
-- [GNU Make Docs](https://www.gnu.org/software/make/manual/make.html)
-- [Installing & Using Themes](https://gohugo.io/themes/installing-and-using-themes/)
-- [Add a help target to a Makefile](https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html)
-
-
-## Lifecycle of a Hugo Website with Makefile
-
-This guide demonstrates the lifecycle of a Hugo website using a Makefile to automate common tasks.
-
-## Requirements
-
-1. [Hugo](https://gohugo.io/getting-started/installing/)
-2. A Makefile with the following commands:
-    - `build`: Build the website
-    - `clean`: Clean the `dist` directory
-    - `post`: Create a new Markdown post
-    - `help`: Display information about the available commands
-
-## Step 1: Create a new post
-
-To create a new post, use the `post` command in the Makefile. Replace `POST_NAME` with the desired file name and `POST_TITLE` with the desired title:
-
-```bash
-make post POST_NAME=my-new-post POST_TITLE="My New Post"
+* build: Generate the website from the markdown and configuration \
+files in the directory dist/.
+* clean: Cleanup the content of the directory dist/
+* post: Create a new blog post whose filename and title come from \
+the environment variables POST_TITLE and POST_NAME.
+* package: Create a file named awesome-website.zip.
+* unit-tests:
+* integration-tests:
+* validate:
+* help: Shows a short help description about Makefile usage.
+* drafter

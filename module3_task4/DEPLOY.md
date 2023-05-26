@@ -1,29 +1,28 @@
-# DEPLOY
+# Hello, here we will answer some questions that may arise regarding the deploy
 
-## Introduction
-This document outlines the deployment process for the awesome-api application at Awesome Inc., following the Continuous Delivery approach.
+## What is in the archive and how to unarchive it?
 
-## Archive Contents and Unarchiving
-The `awesome-website.zip` archive contains the `awesome-api` binary and the `dist/` directory. To extract the archive, download it and extract the contents to your desired location.
+in the file 'awesome-website.zip' the files in the dist/ directory are
+compressed and you can unzip it as follows
 
-## Starting and Stopping the Application
-To start the application, run `./awesome-api`. To stop it, use `Ctrl+C` or terminate the corresponding process.
+➜ unzip awesome-website.zip
 
-## Customizing Application Log Locations
-You can customize the application log location by modifying the `config.yaml` file before starting the application.
+## What are the commands to start and stop the application?
 
-## Verifying Application Health (Healthcheck)
-To check if the application is running correctly, send an HTTP GET request to `http://localhost:8080/healthcheck` and ensure a 200 response with a success message.
+you can use the following command
 
-## Continuous Delivery Workflow (module3_task2)
-The `module3_task2` workflow automatically packages the awesome-api application and `dist/` directory into `awesome-website.zip` on each commit to the principal branch.
+➜ hugo server -d
 
-For more details, refer to the project's documentation and make sure to meet the specified requirements.
+## How to customize where the application logs are written?
 
-Note: The `awesome-website.zip` file is not committed and is deleted by running `make clean`.
+in the file config.toml
 
-## Release
+## config.toml
 
-A Github Release is created with the `tag 1.0.0` and contains the archive
-`awesome-website.zip` along with the content of the file `DEPLOY.md` as text
-for the release.
+change publishDIr
+publishDir = 'dist'
+tag
+
+## How to “quickly” verify that the application is running (healthcheck)?
+
+abre la pagina en tu servidor local
