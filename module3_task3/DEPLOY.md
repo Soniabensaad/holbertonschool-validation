@@ -1,46 +1,28 @@
-name: module3_task3
+# Hello, here we will answer some questions that may arise regarding the deploy
 
-on:
-  push:
-    tags:
-      - '*'
+## What is in the archive and how to unarchive it?
 
-jobs:
-  release:
-    runs-on: ubuntu-latest
+in the file 'awesome-website.zip' the files in the dist/ directory are
+compressed and you can unzip it as follows
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+➜ unzip awesome-website.zip
 
-      - name: Set up Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: 'latest'
+## What are the commands to start and stop the application?
 
-      - name: Build Hugo website
-        run: hugo --minify --source ./website
+you can use the following command
 
-      - name: Create release
-        uses: softprops/gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: |
-            awesome-website.zip
-          release_name: ${{ github.ref }}
-          body: |
-            $(cat DEPLOY.md)
-          body_path: ./DEPLOY.md
+➜ hugo server -d
 
-      - name: Update DEPLOY.md
-        run: echo "::set-output name=content::$(cat DEPLOY.md | sed -e 's/\[tag\]/${{ github.ref }}/g')" > ${{ github.workspace }}/DEPLOY.md
+## How to customize where the application logs are written?
 
-      - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Update DEPLOY.md
-          commit_options: '--author="GitHub Actions"'
+in the file config.toml
 
-      - name: Push changes
-        run: git push origin ${{ github.ref }}
+## config.toml
+
+change publishDIr
+publishDir = 'dist'
+tag
+
+## How to “quickly” verify that the application is running (healthcheck)?
+
+abre la pagina en tu servidor local

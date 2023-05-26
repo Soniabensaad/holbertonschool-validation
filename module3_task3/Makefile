@@ -1,48 +1,26 @@
-lint: ## lint
-	markdownlint -f DEPLOY.md README.md || true
+build: ## Generate the website from the markdown and configuration files in the directory dist/.
+	hugo
 
-build: check ## Build awesome-api
-	go build -o awesome-api
-	hugo -d dist/
+clean: ## Cleanup the content of the directory dist/.
+	rm -rf dist/*
+	rm awesome-website.zip
 
-run: ## Run awesome-api application
-	./awesome-api >./awesome-api.log 2>&1 &
-
-stop: ## Stop awesome-api application
-	pkill awesome-api || true
-
-clean: ## Clean awesome-api application and log
-	pkill awesome-api || true
-	rm -f awesome-api awesome-api.log coverage-units.out coverage-integrations.out
-	rm -rf ./dist
-post: ## Create a new blog post
+post: ## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
 	hugo new posts/$(POST_NAME).md
-	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+	sed -i '0,/title/s/.*title.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
-test: ## Test current connection
-	make unit-tests
-	make integration-tests
-
-unit-tests: ## Run tests to check for HelloHandler coverage
-	go test -v -short -coverprofile=coverage-units.out
-
-integration-tests: ## Run tests to check integrations coverage
-	go test -v -coverprofile=coverage-integrations.out
-check: ## Check markdown files
-	markdownlint ./content/posts/*.md
-	markdown-link-check ./content/posts/*.md
-
-validate: ## Validate HTML  W3C Validator
+package: ## produces a file awesome-website.zip that containing the dist/ directory
 	make build
-	git clone https://github.com/holbertonschool/W3C-Validator.git
+	zip -r awesome-website.zip dist/
 
-package: ## Produce awesome-website.zip containing awesome-api and dist directory
-	zip -FSr awesome-website.zip . -i dist/ awesome-api
-	@if [ ! -f "awesome-website.zip" ]; then \
-		echo "Failed to generate awesome-website.zip"; \
-		exit 1; \
-	fi
+unit-tests: ## ERROR: No comment found for target unit-tests in ./Makefile
 
-.SILENT:
-help: ## Display what each command does
-	cat Makefile | grep '##' | tr -d '##' | head -n -1
+integration-tests: ## ERROR: No comment found for target integration-tests in ./Makefile
+
+validate: ## ERROR: No comment found for target validate in ./Makefile
+
+lint: ## lint format
+	markdownlint README.md DEPLOY.md
+
+help: ## Show this help usage
+	@awk '/[^#]*##[^#]*/{printf "%s %s\n", $$1, substr($$0, index($$0,"##")+2)}' Makefile | head -n -1
