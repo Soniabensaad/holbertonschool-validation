@@ -1,25 +1,18 @@
-# Deployment Document
+#  Answer to operations team’s usual questions:
 
-- What is in the archive and how to unarchive it?
+## What is in the archive and how to unarchive it?
+The archive ```awesome-website.zip``` contains awesome-api binary (api server) file and the dist/ directory (directory compiled).
+To unarchive use the following command :  ```unzip awesome-webstite.zip```
 
-- It is a compressed file that is the awesome-api binary and is 'dist directory'.
+## What are the commands to start and stop the application?
+To **RUN** the application : ```make run```
+To **STOP** the application : ```make stop```
 
-- Syntax to unzip the zip package
-  
-  - Run unzip awesome-website.zip
+## How to customize where the application logs are written?
+As default logs are written in ```awesome-api.log``` file. If you want change this localisation use this command : ```make run > [Path/File_name].log 2>&1``` 
 
-- How to verify the version
-  
-  - Run git tag
+## How to “quickly” verify that the application is running (healthcheck)?
+Use the ```curl localhost:9999/health```
 
-- What are the commands to start and stop the application?
-
-  - Use Hugo server, sintax type hugo server
-
-- How to customize where the application logs are written?
-
-- I do not know yet
-
-- How to “quickly” verify that the application is running (healthcheck)?
-
-- Check it out on local host [http://localhost:1313]
+## Release
+A Github Release is created with the ```tag 1.0.0``` and contain archive awesome-website.zip + content of the file DEPLOY.md as text for the release.

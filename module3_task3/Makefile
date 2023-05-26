@@ -1,40 +1,54 @@
-# Define variables
-Publish=hugo
-SHELLCHECK=shellcheck
+GO=go
+TARGET=awesome-api
+RM=rm -rf
+MAKE=make
+COVERAGE=coverage
+HUGO=hugo
 
-build: ## Builds a new website
-	$(Publish)
+build:	## Generate the source code of the application to a binary.
+	$(GO) mod tidy
+	$(MAKE) check && $(HUGO) && $(GO) build -o $(TARGET)
 
-clean: ## Remove all files from folder dist
-	rm -r dist/*
+run:	## Run the application in background by executing the binary.
+	./$(TARGET) >./$(TARGET).log 2>&1 &
 
-post: ## Create new post and using the sed command to modify the contents of a file.
-	$(Publish) new posts/$(POST_NAME).md
-	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+post:	## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME
+	$(HUGO) new posts/$(POST_NAME).md
+	sed -i '2s/.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
-lint: ## shellcheck setup
-	markdownlint DEPLOY.md
-	$(SHELLCHECK) setup.sh >/dev/null 2>&1 || echo "Lint Failed"
+stop:	## Stop the application.
+	@pkill $(TARGET)
 
-markdownlint: ## updated to lint the files README.md and DEPLOY.md
-	markdownlint README.md
-	markdownlint DEPLOY.md
+clean:	## Stop the application. Delete the binary and the log file.
+	@if pgrep -x $(TARGET) > /dev/null; then \
+		pkill $(TARGET); \
+	fi
+	@$(RM) $(TARGET) $(TARGET).log $(COVERAGE)-units.out $(COVERAGE)-integrations.out dist/ *~
 
-integration-tests: ## server and check the localhost
-	hugo
-	ls dist/
+test:	## Test the application.
+	$(MAKE) unit-tests
+	$(MAKE) integration-tests
+	$(MAKE) validate
 
-unit-tests: ## Runs different makefile recipes
-	make POST_TITLE='TEST' POST_NAME='this-is-a-test' post
-	make build
-	make clean
+unit-tests: ## Run unit tests
+	go test -v -short -coverprofile=$(COVERAGE)-units.out
 
-validate: ## Tests dir
-	pwd
+integration-tests: ## Run integration tests
+	go test -v -coverprofile=$(COVERAGE)-integrations.out
 
-package: ## creates archive
-	make build
-	zip awesome-website.zip dist/	
+lint:	## Lint go markdown code
+	markdownlint -f DEPLOY.md README.md || true
 
-help: ## Display the list of targets and their usage.
-	cat Makefile | grep '##' | tr -d '##' | head -n -1
+check:	## Lint markdonw source, check dead links
+	markdownlint ./content/posts/*.md
+	find content -name \*.md -print0 | xargs -0 -n1 markdown-link-check
+
+validate:	## Validate the file dist/index.html using the command line Holberton’s W3C Validator.
+	python3 ./w3c_validator.py ./dist/index.html || true
+
+package:	## Produce awesome-website.zip containing awesome-api and dist directory
+	@hugo
+	zip -FSr awesome-website.zip . -i dist/ awesome-api
+
+help:	## Show this help usage.
+	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
