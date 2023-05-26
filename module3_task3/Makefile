@@ -1,26 +1,40 @@
-build: ## Generate the website from the markdown and configuration files in the directory dist/.
+# Define variables
+Publish=hugo
+SHELLCHECK=shellcheck
+
+build: ## Builds a new website
+	$(Publish)
+
+clean: ## Remove all files from folder dist
+	rm -r dist/*
+
+post: ## Create new post and using the sed command to modify the contents of a file.
+	$(Publish) new posts/$(POST_NAME).md
+	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+
+lint: ## shellcheck setup
+	markdownlint DEPLOY.md
+	$(SHELLCHECK) setup.sh >/dev/null 2>&1 || echo "Lint Failed"
+
+markdownlint: ## updated to lint the files README.md and DEPLOY.md
+	markdownlint README.md
+	markdownlint DEPLOY.md
+
+integration-tests: ## server and check the localhost
 	hugo
+	ls dist/
 
-clean: ## Cleanup the content of the directory dist/.
-	rm -rf dist/*
-	rm awesome-website.zip
-
-post: ## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
-	hugo new posts/$(POST_NAME).md
-	sed -i '0,/title/s/.*title.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
-
-package: ## produces a file awesome-website.zip that containing the dist/ directory
+unit-tests: ## Runs different makefile recipes
+	make POST_TITLE='TEST' POST_NAME='this-is-a-test' post
 	make build
-	zip -r awesome-website.zip dist/
+	make clean
 
-unit-tests: ## ERROR: No comment found for target unit-tests in ./Makefile
+validate: ## Tests dir
+	pwd
 
-integration-tests: ## ERROR: No comment found for target integration-tests in ./Makefile
+package: ## creates archive
+	make build
+	zip awesome-website.zip dist/	
 
-validate: ## ERROR: No comment found for target validate in ./Makefile
-
-lint: ## lint format
-	markdownlint README.md DEPLOY.md
-
-help: ## Show this help usage
-	@awk '/[^#]*##[^#]*/{printf "%s %s\n", $$1, substr($$0, index($$0,"##")+2)}' Makefile | head -n -1
+help: ## Display the list of targets and their usage.
+	cat Makefile | grep '##' | tr -d '##' | head -n -1

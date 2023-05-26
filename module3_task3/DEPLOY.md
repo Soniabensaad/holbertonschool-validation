@@ -1,28 +1,25 @@
-# Hello, here we will answer some questions that may arise regarding the deploy
+# Deployment Document
 
-## What is in the archive and how to unarchive it?
+- What is in the archive and how to unarchive it?
 
-in the file 'awesome-website.zip' the files in the dist/ directory are
-compressed and you can unzip it as follows
+- It is a compressed file that is the awesome-api binary and is 'dist directory'.
 
-➜ unzip awesome-website.zip
+- Syntax to unzip the zip package
+  
+  - Run unzip awesome-website.zip
 
-## What are the commands to start and stop the application?
+- How to verify the version
+  
+  - Run git tag
 
-you can use the following command
+- What are the commands to start and stop the application?
 
-➜ hugo server -d
+  - Use Hugo server, sintax type hugo server
 
-## How to customize where the application logs are written?
+- How to customize where the application logs are written?
 
-in the file config.toml
+- I do not know yet
 
-## config.toml
+- How to “quickly” verify that the application is running (healthcheck)?
 
-change publishDIr
-publishDir = 'dist'
-tag
-
-## How to “quickly” verify that the application is running (healthcheck)?
-
-abre la pagina en tu servidor local
+- Check it out on local host [http://localhost:1313]
