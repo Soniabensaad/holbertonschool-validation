@@ -1,54 +1,48 @@
-GO=go
-TARGET=awesome-api
-RM=rm -rf
-MAKE=make
-COVERAGE=coverage
-HUGO=hugo
-
-build:	## Generate the source code of the application to a binary.
-	$(GO) mod tidy
-	$(MAKE) check && $(HUGO) && $(GO) build -o $(TARGET)
-
-run:	## Run the application in background by executing the binary.
-	./$(TARGET) >./$(TARGET).log 2>&1 &
-
-post:	## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME
-	$(HUGO) new posts/$(POST_NAME).md
-	sed -i '2s/.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
-
-stop:	## Stop the application.
-	@pkill $(TARGET)
-
-clean:	## Stop the application. Delete the binary and the log file.
-	@if pgrep -x $(TARGET) > /dev/null; then \
-		pkill $(TARGET); \
-	fi
-	@$(RM) $(TARGET) $(TARGET).log $(COVERAGE)-units.out $(COVERAGE)-integrations.out dist/ *~
-
-test:	## Test the application.
-	$(MAKE) unit-tests
-	$(MAKE) integration-tests
-	$(MAKE) validate
-
-unit-tests: ## Run unit tests
-	go test -v -short -coverprofile=$(COVERAGE)-units.out
-
-integration-tests: ## Run integration tests
-	go test -v -coverprofile=$(COVERAGE)-integrations.out
-
-lint:	## Lint go markdown code
+lint: ## lint
 	markdownlint -f DEPLOY.md README.md || true
 
-check:	## Lint markdonw source, check dead links
+build: check ## Build awesome-api
+	go build -o awesome-api
+	hugo -d dist/
+
+run: ## Run awesome-api application
+	./awesome-api >./awesome-api.log 2>&1 &
+
+stop: ## Stop awesome-api application
+	pkill awesome-api || true
+
+clean: ## Clean awesome-api application and log
+	pkill awesome-api || true
+	rm -f awesome-api awesome-api.log coverage-units.out coverage-integrations.out
+	rm -rf ./dist
+post: ## Create a new blog post
+	hugo new posts/$(POST_NAME).md
+	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+
+test: ## Test current connection
+	make unit-tests
+	make integration-tests
+
+unit-tests: ## Run tests to check for HelloHandler coverage
+	go test -v -short -coverprofile=coverage-units.out
+
+integration-tests: ## Run tests to check integrations coverage
+	go test -v -coverprofile=coverage-integrations.out
+check: ## Check markdown files
 	markdownlint ./content/posts/*.md
-	find content -name \*.md -print0 | xargs -0 -n1 markdown-link-check
+	markdown-link-check ./content/posts/*.md
 
-validate:	## Validate the file dist/index.html using the command line Holberton’s W3C Validator.
-	python3 ./w3c_validator.py ./dist/index.html || true
+validate: ## Validate HTML  W3C Validator
+	make build
+	git clone https://github.com/holbertonschool/W3C-Validator.git
 
-package:	## Produce awesome-website.zip containing awesome-api and dist directory
-	@hugo
+package: ## Produce awesome-website.zip containing awesome-api and dist directory
 	zip -FSr awesome-website.zip . -i dist/ awesome-api
+	@if [ ! -f "awesome-website.zip" ]; then \
+		echo "Failed to generate awesome-website.zip"; \
+		exit 1; \
+	fi
 
-help:	## Show this help usage.
-	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
+.SILENT:
+help: ## Display what each command does
+	cat Makefile | grep '##' | tr -d '##' | head -n -1

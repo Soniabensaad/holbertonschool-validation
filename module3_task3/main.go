@@ -27,9 +27,9 @@ func setupRouter() *mux.Router {
 
   // When an HTTP GET request is received on the path /health, delegates to the function "HealthCheckHandler()"
   r.HandleFunc("/health", HealthCheckHandler).Methods("GET")
-
   // when an HTTP GET request is received on the path /hello
   r.HandleFunc("/hello", HelloHandler).Methods("GET")
+  //Handles the return from dist folder
   r.PathPrefix("/").Handler(http.FileServer(http.Dir("./dist/")))
 
   return r
@@ -44,7 +44,6 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
   // End of the function: return HTTP 200 by default
 }
-
 func HelloHandler(w http.ResponseWriter, r *http.Request) {
   // Extract the query parameters from the GET request
   queryParams := r.URL.Query()
@@ -59,7 +58,7 @@ func HelloHandler(w http.ResponseWriter, r *http.Request) {
        name = "there"
      default:
        // Set the name variable to the first parameter "name" in the request
-       name = nameParams[0] 
+       name = nameParams[0]
   }
 
   // Return status 400 if name is empty
